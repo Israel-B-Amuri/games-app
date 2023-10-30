@@ -2,10 +2,17 @@
 
 import React,{useState} from 'react'
 
+
 export default function Example() {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
   const [name,setName] = useState('')
+  async function fetchData(e:React.FormEvent){
+    e.preventDefault()
+    const response = await fetch('/api/register',{method:'POST', body : JSON.stringify({email,password,name})})
+    const data = await response.json()
+    console.log(data)
+}
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -16,7 +23,7 @@ export default function Example() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                 Full names
@@ -27,6 +34,7 @@ export default function Example() {
                   name="name"
                   type="text"
                   autoComplete="name"
+                  onChange={(e)=>setName(e.target.value)}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -42,6 +50,7 @@ export default function Example() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  onChange={(e)=> setEmail(e.target.value)}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 border-slate-100"
                 />
@@ -61,6 +70,7 @@ export default function Example() {
                   type="password"
                   autoComplete="current-password"
                   required
+                  onChange={(e)=>setPassword(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -70,6 +80,7 @@ export default function Example() {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                onClick={fetchData}
               >
                 Sign up
               </button>

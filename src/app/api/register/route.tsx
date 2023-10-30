@@ -1,12 +1,10 @@
-import {getRegister} from "@/utils/getRegister";
-import { NextResponse } from 'next/server'
+import {register} from "@/utils/getUsers";
 
-export async function GET(request:Request,response:Response) {
-const data = await request.json()
-const match = await getRegister(data.email,data.password)
-if(match.length==1){
-    console.log('hej');
-    return NextResponse.redirect(new URL('/products', request.url))
-}else
-{return NextResponse.json({msg:'hej'})}
+
+export async function POST(request:Request,response:Response) {
+    const data = await request.json()
+    console.log(data);
+    
+    const res = await register(data.email,data.password,data.name)
+    return  Response.json(res)
 }

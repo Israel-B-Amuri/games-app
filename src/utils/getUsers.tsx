@@ -1,6 +1,21 @@
 import{ db } from './db'
+import { compareSync } from 'bcrypt'
 
-export async function getUsers() {
-    const data = await db.query('SELECT * FROM users')
-    return Object.values(JSON.parse(JSON.stringify(data)))
+
+type User = {
+    id:number,
+    name:string,
+    email:string,
+    password:string,
+}
+
+export async function getUsers(email:string, password:string) {
+const data : User[]= await db.query('SELECT * FROM users WHERE email= ?',[email])
+
+    if (data.length !== 0) {
+const match = compareSync(password , data[0].password)
+        return match
+    } else{
+        return 'No match found'
+    }   
 }

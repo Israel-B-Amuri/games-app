@@ -1,7 +1,7 @@
 import {getRegister} from "@/utils/getRegister";
 import { NextResponse } from 'next/server'
 
-export async function POST(request:Request,response:Response) {
+export async function GET(request:Request,response:Response) {
 const data = await request.json()
 const match = await getRegister(data.email,data.password)
 if(match.length==1){
